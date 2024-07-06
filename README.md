@@ -1,68 +1,81 @@
-The shall can handle the following commands and errors.
-Internal Commands:
-1) cd : change directory to given path provided .(if user enter only cd go to home directory)
-	Options handled:
-		1) cd - : Go to previous directory.
-		2) cd ~ : Go to root directory.
-	Errors handled:
-		1) cd to directory which does not exist.
-		2) too many arguments if multiple inputs provided.
-2) pwd: only pwd and pwd -L (default implementation) is handled (as told by sir that we need to handle only default implementation in case of pwd).
-	Error handled : too many arguments if multiple inputs provided.
-3) echo: print whatever input provided.
-	Options handled:
-		1) echo -n: no next line after printing stuff.
-		2) echo -E: default echo implementation
-Assumption : unable to find any corner case as echo command will print whatever user provided.
+# Shell Command and Error Handling
 
-External Commands:
-Note : I have handled external commands using both fork and pthread. In both cases , options and error handling are same in both the same c file is running to produce the desired output.
+## Internal Commands
 
-1)ls : Gives filenames of the current directory. Also handled ls <path>, in this case gives filename of the given directory.
-	Options handled:
-		1) ls -a : Also shows the hiden files.
-		2) ls -A : dont show files with starting . and .. .
-	Errors handled:
-		1) In case of directory which is not exist , it will throw an error.
-		2) Incorrect flag
-2)cat : concatenate user inputed files and print on terminal the same.(I had handled command in such a way that user can enter filename with word limit of 200)
-	Options handled:
-		1) cat -n: It will print the file content with line number.
-		2) cat -E: It will print '$' at the end of line.
-	Errors handled:
-		1) File not found 
-		2) In case directory provided instead of file 
-3)rm : remove the file whose name is specified (I had handled command in such a way that user can enter filename with word limit of 200)
-	Options handled:
-		1) rm -i: Ask before removal
-		2) rm -f: force removal and also dont specify if file does not exist.
-	Errors handled:
-		1) If directory given instead of file error it will throw error.
-		2) File does not exist error.
-4)mkdir: creates a directory with name specified by user.
-	Options handled:
-		1)mkdir -v: gives feedback to the user regarding formation of a directory.
-		2)mkdir -p: also creates the parent directory if not already created.
-	Errors handled:
-		1) In case user does not specify any directory name .
-		2) Unable to create directory in case of directory already existed.
-5)date: Shows current date and time to user.
-	Options handled:
-		1)date -u: gives UTC time frame to user.
-		2)date -r: gives last modification time of file provided.
-	Errors handled:
-		1) Incorrect flag.
-		2) File does not exist error in case of date -r.
+1. **cd**: Change directory to the provided path. If no path is provided, change to the home directory.
+    - **Options handled:**
+        - `cd -`: Go to the previous directory.
+        - `cd ~`: Go to the root directory.
+    - **Errors handled:**
+        - Attempting to change to a non-existent directory.
+        - Too many arguments if multiple inputs are provided.
 
-#Test Cases:
-test case 1:
-(I had to create some files s1 and s2 already in the directory for other functioning)
+2. **pwd**: Print the current working directory.
+    - **Options handled:**
+        - `pwd -L`: Default implementation.
+    - **Errors handled:**
+        - Too many arguments if multiple inputs are provided.
+
+3. **echo**: Print the provided input.
+    - **Options handled:**
+        - `echo -n`: No newline after printing.
+        - `echo -E`: Default echo implementation.
+    - **Assumption:** Echo will print whatever the user provides without corner cases.
+
+## External Commands
+
+*Note: External commands are handled using both fork and pthread. Options and error handling are the same for both, with the same C file producing the desired output.*
+
+1. **ls**: List filenames in the current directory. Also supports `ls <path>` to list filenames in the specified directory.
+    - **Options handled:**
+        - `ls -a`: Show hidden files.
+        - `ls -A`: Do not show `.` and `..` files.
+    - **Errors handled:**
+        - Directory does not exist.
+        - Incorrect flag.
+
+2. **cat**: Concatenate and display files.
+    - **Options handled:**
+        - `cat -n`: Number the output lines.
+        - `cat -E`: Display `$` at the end of each line.
+    - **Errors handled:**
+        - File not found.
+        - Directory provided instead of a file.
+
+3. **rm**: Remove the specified file.
+    - **Options handled:**
+        - `rm -i`: Ask before removal.
+        - `rm -f`: Force removal, no error if the file does not exist.
+    - **Errors handled:**
+        - Directory provided instead of a file.
+        - File does not exist.
+
+4. **mkdir**: Create a directory with the specified name.
+    - **Options handled:**
+        - `mkdir -v`: Provide feedback about directory creation.
+        - `mkdir -p`: Create parent directories as needed.
+    - **Errors handled:**
+        - No directory name specified.
+        - Directory already exists.
+
+5. **date**: Display the current date and time.
+    - **Options handled:**
+        - `date -u`: Display UTC time.
+        - `date -r`: Display the last modification time of the specified file.
+    - **Errors handled:**
+        - Incorrect flag.
+        - File does not exist (for `date -r`).
+
+## Test Cases
+
+### Test Case 1:
+```bash
 ls
-ls -a 
+ls -a
 mkdir udit
 cd udit
 mkdir -v hitesh
-ls 
+ls
 echo I am a good boy
 cd -
 cd -
@@ -70,12 +83,8 @@ cd -
 ls ./udit
 mkdir -p udit/aa/bb
 cat -n s1 s2
-rm udit(will throw some error)
+rm udit # This will throw an error
 pwd
 date -r s1
 rm -i s1 s2
 pwd
-
-Test case 2:
-
-Again do the above test case but use &t at the end of every command to check thread processes as well.
