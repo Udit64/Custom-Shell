@@ -88,3 +88,26 @@ pwd
 date -r s1
 rm -i s1 s2
 pwd
+
+## Test Cases
+
+### Test Case 2:
+```bash
+ls &t
+ls -a &t
+mkdir udit &t
+cd udit &t
+mkdir -v hitesh &t
+ls &t
+echo I am a good boy &t
+cd - &t
+cd - &t
+cd - &t
+ls ./udit &t
+mkdir -p udit/aa/bb &t
+cat -n s1 s2 &t
+rm udit &t # This will throw an error
+pwd &t
+date -r s1 &t
+rm -i s1 s2 &t
+pwd &t
