@@ -88,6 +88,7 @@ pwd
 date -r s1
 rm -i s1 s2
 pwd
+```bash
 
 ## Test Cases
 
@@ -111,3 +112,4 @@ pwd &t
 date -r s1 &t
 rm -i s1 s2 &t
 pwd &t
+```bash
